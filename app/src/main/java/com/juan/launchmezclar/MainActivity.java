@@ -9,6 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+
+//Notas del 6 oct 2017
+//Ver como limitar la entrada a 16 digitos
+//commit 4321
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,17 +28,14 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
 
-
+                sendIntentToAppMezclar();
             }
         });
 
-        //Especifico el paquete que quiero lanzar, la app Mezclar
-        Intent launchMezclarApplication = getPackageManager().getLaunchIntentForPackage("com.juan.mezclar");
-        launchMezclarApplication.putExtra("KeyName","Hola, te estoy llamando");
-        startActivity(launchMezclarApplication);
+
     }
 
     @Override
@@ -56,5 +58,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void sendIntentToAppMezclar(){
+        //declaro el edittext
+        EditText secuenciaDeImagenes   = (EditText)findViewById(R.id.secImagenes);
+        //Especifico el paquete que quiero lanzar, la app Mezclar
+        Intent launchMezclarApplication = getPackageManager().getLaunchIntentForPackage("com.juan.mezclar");
+        //launchMezclarApplication.putExtra("KeyName","Hola, te estoy llamando");
+        launchMezclarApplication.putExtra("KeyName", secuenciaDeImagenes.getText().toString() );
+
+        startActivity(launchMezclarApplication);
     }
 }
