@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 
 //Notas del 6 oct 2017
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,9 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
                 sendIntentToAppMezclar();
             }
+        });  */
+
+        final Button button = (Button)findViewById(R.id.button_id);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                sendIntentToAppMezclar();
+            }
         });
-
-
     }
 
     @Override
@@ -63,11 +71,18 @@ public class MainActivity extends AppCompatActivity {
     public void sendIntentToAppMezclar(){
         //declaro el edittext
         EditText secuenciaDeImagenes   = (EditText)findViewById(R.id.secImagenes);
-        //Especifico el paquete que quiero lanzar, la app Mezclar
-        Intent launchMezclarApplication = getPackageManager().getLaunchIntentForPackage("com.juan.mezclar");
-        //launchMezclarApplication.putExtra("KeyName","Hola, te estoy llamando");
-        launchMezclarApplication.putExtra("KeyName", secuenciaDeImagenes.getText().toString() );
+        //Chequeo que el string no esta vacio
+        if(secuenciaDeImagenes.length() != 0) {
+            //Especifico el paquete que quiero lanzar, la app Mezclar
+            Intent launchMezclarApplication = getPackageManager().getLaunchIntentForPackage("com.juan.mezclar");
+            //launchMezclarApplication.putExtra("KeyName","Hola, te estoy llamando");
+            launchMezclarApplication.putExtra("KeyName", secuenciaDeImagenes.getText().toString());
 
-        startActivity(launchMezclarApplication);
+            startActivity(launchMezclarApplication);
+        }else{
+            //Mostrar un snakc bar:
+            Snackbar.make(findViewById(R.id.coordinatorlayout_1), "Introduce Digits", Snackbar.LENGTH_LONG)
+                   .setAction("Action", null).show();
+        }
     }
 }
